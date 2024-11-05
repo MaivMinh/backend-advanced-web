@@ -21,6 +21,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -105,8 +106,7 @@ public class AuthController {
                 .claim("roles", authenticated.getAuthorities().stream().map(
                         GrantedAuthority::getAuthority).collect(Collectors.joining(",")))
                 .setIssuedAt(new Date())
-                //.setExpiration(new Date((new Date()).getTime() + 604800000L))
-                .setExpiration(new Date(new Date().getTime() + 10*1000L))
+                .setExpiration(new Date((new Date()).getTime() + 604800000L))
                 .signWith(secretKey).compact();
       } else log.error("COULD NOT FIND ENVIRONMENT VARIABLE!");
     } else {
