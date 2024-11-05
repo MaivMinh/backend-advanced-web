@@ -70,7 +70,7 @@ public class ProjectSecurityConfig {
   @Bean
   public WebSecurityCustomizer webSecurityCustomizer() {
     return (web) -> web.ignoring().requestMatchers(
-            "/api/v1/auth/**"
+            "/api/v1/auth/**", "/api/v1/public/**"
     );
   }
 

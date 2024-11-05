@@ -57,9 +57,4 @@ public class JwtValidatorFilter extends OncePerRequestFilter {
     } else throw new BadCredentialsException("Token not found!");
     filterChain.doFilter(request, response);
   }
-
-  @Override
-  protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-    return false;
-  }
 }

@@ -13,6 +13,10 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>backend</name>
     <packaging>jar</packaging>
+    <properties>
+        <java.version>17</java.version>
+        <spring-cloud-azure.version>5.14.0</spring-cloud-azure.version>
+    </properties>
     <description>backend</description>
     <url/>
     <licenses>
@@ -27,9 +31,6 @@
         <tag/>
         <url/>
     </scm>
-    <properties>
-        <java.version>17</java.version>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -106,6 +107,12 @@
         </dependency>
         <!--        Dependencies for JSONWEBTOKEN.-->
 
+        <!--        AZURE CLOUD-->
+        <dependency>
+            <groupId>com.azure.spring</groupId>
+            <artifactId>spring-cloud-azure-starter-keyvault</artifactId>
+        </dependency>
+        <!--        AZURE CLOUD-->
 
         <dependency>
             <groupId>org.mockito</groupId>
@@ -116,12 +123,37 @@
 
     </dependencies>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.azure.spring</groupId>
+                <artifactId>spring-cloud-azure-dependencies</artifactId>
+                <version>${spring-cloud-azure.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>3.1.0</version>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <!--                Prevent test cases errors during Maven building in CI-->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <reuseForks>false</reuseForks>
+                    <forkCount>1</forkCount>
+                </configuration>
             </plugin>
         </plugins>
     </build>
